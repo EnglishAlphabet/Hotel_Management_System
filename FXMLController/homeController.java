@@ -11,15 +11,16 @@ import beta.database.controller.room_controller;
 import beta.models.room;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import java.util.List;
 
 public class homeController {
 
     @FXML
-    private FlowPane dashboard; //change the name according to your fxml file
-
+    private TilePane dashboard; //change the name according to your fxml file
+    //Was flowpane but tilepane works better from my testing
+    
     @FXML
     public void initialize() {
         
