@@ -8,7 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import java.util.List;
 
-public class HelloController {
+public class homeController {
 
     @FXML
     private FlowPane dashboard;
