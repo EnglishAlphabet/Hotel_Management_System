@@ -50,6 +50,7 @@ public class HelloController {
                     "-fx-background-radius: 1.25em;");
             return root_card;
         }
+        
         public void generate_all_card(){
 
             List<room> all_rooms = room_controller.getAllRooms();
