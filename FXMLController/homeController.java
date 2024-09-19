@@ -53,8 +53,8 @@ public class HelloController {
         
         public void generate_all_card(){
 
+            dashboard.getChildren().clear();
             List<room> all_rooms = room_controller.getAllRooms();
-
 
             for(room r : all_rooms) {
 
