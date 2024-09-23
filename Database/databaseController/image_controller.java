@@ -2,6 +2,7 @@
 * The Code is still unfinished
 * May have bugs and unnecessary lines of codes
 * Inconsistent practices and codes
+* Error handling is yet to be implemented 
 *
 * */
 
@@ -80,10 +81,14 @@ public class image_controller {
     }
 
     public static Blob getImageByID(String id){
-        String query = "SELECT * FROM image_store";
+        String query = "SELECT * FROM image_store WHERE id = ?";
+
+  
 
         try(Connection con = DBConnection.getConnection();
             PreparedStatement psmt = con.prepareStatement(query)){
+
+            psmt.setString(1,id);
 
             ResultSet rs = psmt.executeQuery();
             Blob b=null;
