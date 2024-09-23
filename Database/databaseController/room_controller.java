@@ -1,19 +1,23 @@
 package beta.database.controller;
-
+/*
+* 
+* Work in progress
+* Bugs may be present
+* 
+* */
 import beta.connection.DBConnection;
 import beta.models.room;
 import beta.models.room_status;
 import beta.models.room_type;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
 public class room_controller {
 
-    public static List<room> getAllRooms(){
+    public static List<room> getAllRooms(String filter){
         List<room> all_rooms = new ArrayList<>();
-        String query = "SELECT * FROM room";
+        String query = "SELECT * FROM room" + filter;
         try(Connection con = DBConnection.getConnection();
         PreparedStatement psmt = con.prepareStatement(query);){
 
@@ -34,12 +38,12 @@ public class room_controller {
             return null;
         }
     }
-    
-    public static List<room> getRoomByFloor(String f){
+
+    public static List<room> getRoomByFloor(String f, String filter){
         List<room> all_rooms = new ArrayList<>();
-        String query = "SELECT * FROM room WHERE floor = ?";
+        String query = "SELECT * FROM room WHERE floor = ?" + filter;
         try(Connection con = DBConnection.getConnection();
-            PreparedStatement psmt = con.prepareStatement(query);){
+            PreparedStatement psmt = con.prepareStatement(query)){
 
             psmt.setString(1, f);
             ResultSet rs = psmt.executeQuery();
@@ -60,7 +64,27 @@ public class room_controller {
         }
     }
 
+    public static boolean addRoom(String room_no, String roomTypeId, int floor, String roomStatus){
+        String sql = "INSERT INTO `room` VALUES(?, ?, ?, ?)";
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement psmt = con.prepareStatement(sql)){
+            psmt.setString(1, room_no);
+            psmt.setString(2, roomTypeId);
+            psmt.setInt(3, floor);
+            psmt.setString(4, roomStatus);
+
+            return psmt.execute();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(getAllRooms());
+
+
+
     }
 }
