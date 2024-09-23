@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="727.0" prefWidth="1202.0" style="-fx-background-color: #ddd6e1;" stylesheets="@AdminPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Admin.AdminPageeditor">
+   <children>
+      <AnchorPane layoutX="-1.0" prefHeight="727.0" prefWidth="196.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="dashboard" layoutX="14.0" layoutY="168.0" mnemonicParsing="false" onAction="#switchtodashboard" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Dashboard">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fitHeight="161.0" fitWidth="200.0" layoutX="16.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../logo.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="customer" layoutX="14.0" layoutY="250.0" mnemonicParsing="false" onAction="#switchtocustomer" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Customer">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="employee" layoutX="14.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchtoemployee" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Employee">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="logout" layoutX="16.0" layoutY="585.0" mnemonicParsing="false" onAction="#logouttomainpage" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Logout" AnchorPane.bottomAnchor="67.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Button fx:id="setting" layoutX="12.0" layoutY="418.0" mnemonicParsing="false" onAction="#switchtosetting" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Setting" AnchorPane.bottomAnchor="234.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Text layoutX="207.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard" textAlignment="CENTER" wrappingWidth="150.94140625">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <Text layoutX="217.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello , Welcome Back!" textAlignment="CENTER">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <AnchorPane layoutX="207.0" layoutY="91.0" prefHeight="403.0" prefWidth="672.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+         <children>
+            <LineChart fx:id="linechard" layoutX="14.0" layoutY="57.0" prefHeight="332.0" prefWidth="551.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <Text layoutX="52.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Campagin Overview">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="896.0" layoutY="90.0" prefHeight="621.0" prefWidth="289.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+         <children>
+            <PieChart fx:id="piechard" layoutX="25.0" layoutY="49.0" prefHeight="200.0" prefWidth="211.0" />
+            <Text layoutX="25.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Overview">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <Text layoutX="25.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total income this month">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Text fx:id="monthoverview" layoutX="25.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$98341840443">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Line endX="145.0" layoutX="131.0" layoutY="316.0" startX="-108.0" />
+            <Text layoutX="25.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Overview">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <PieChart fx:id="piechard1" layoutX="27.0" layoutY="355.0" prefHeight="200.0" prefWidth="211.0" />
+            <Text layoutX="25.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total income this year">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Text fx:id="yearoverview" layoutX="29.0" layoutY="599.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$98341840443">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="209.0" layoutY="503.0" prefHeight="200.0" prefWidth="672.0" style="-fx-background-color: white; -fx-background-radius: 15;" AnchorPane.bottomAnchor="24.0" AnchorPane.topAnchor="503.0">
+         <children>
+            <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Text>
+            <TableView layoutX="15.0" layoutY="46.0" prefHeight="142.0" prefWidth="648.0" style="-fx-background-radius: 1.25em;" AnchorPane.bottomAnchor="12.0" AnchorPane.topAnchor="46.0">
+              <columns>
+                <TableColumn prefWidth="75.0" style="-fx-background-radius: 1em;" text="Room Type No" />
+                <TableColumn fx:id="reservation" prefWidth="75.0" text="Check-In" />
+                  <TableColumn fx:id="reservation1" prefWidth="75.0" text="Check-Out" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

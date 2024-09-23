@@ -1,0 +1,44 @@
+#dashboard2{
+    -fx-background-color: transparent;
+}
+
+#dashboard2:hover{
+    -fx-background-color: black;
+    
+    
+}
+#customer2{
+    -fx-background-color: transparent;
+}
+
+#customer2:hover{
+    -fx-background-color: black;
+    
+    
+}
+#employee2{
+    -fx-background-color: transparent;
+}
+
+#employee2:hover{
+    -fx-background-color: black;
+    
+    
+}
+#setting2{
+    -fx-background-color: transparent;
+}
+#setting2:hover{
+    -fx-background-color: black;
+   
+    
+}
+#logout2{
+    -fx-background-color: transparent;
+}
+
+#logout2:hover{
+  -fx-background-color: black;
+    
+    
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="727.0" prefWidth="1202.0" style="-fx-background-color: #34495e;" stylesheets="@settingdark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Admin.Addsettingdark">
+   <children>
+      <AnchorPane prefHeight="740.0" prefWidth="196.0" style="-fx-background-color: #2d2d2d;">
+         <children>
+            <Button fx:id="dashboard3" layoutX="14.0" layoutY="168.0" mnemonicParsing="false" onAction="#switchtodashboard3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Dashboard" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fitHeight="161.0" fitWidth="200.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Untitled.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="customer3" layoutX="14.0" layoutY="250.0" mnemonicParsing="false" onAction="#switchtocustomer3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Customer" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="employee3" layoutX="14.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchtoemployee3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Employee" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="logout3" layoutX="16.0" layoutY="585.0" mnemonicParsing="false" onAction="#logouttomainpage3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="67.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="setting3" layoutX="15.0" layoutY="416.0" mnemonicParsing="false" onAction="#switchtosetting3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Setting" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Text layoutX="214.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Setting">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <Line endX="831.0" layoutX="315.0" layoutY="84.0" startX="-100.0" />
+      <Button fx:id="perfrence" layoutX="214.0" layoutY="130.0" mnemonicParsing="false" onAction="#perfrence" prefHeight="61.0" prefWidth="118.0" style="-fx-background-radius: 15; -fx-background-color: #36454f;" text="Perfrence" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="room" layoutX="214.0" layoutY="234.0" mnemonicParsing="false" onAction="#room" prefHeight="61.0" prefWidth="118.0" style="-fx-background-radius: 15; -fx-background-color: #36454f;" text="Edit Rooms" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="currency" layoutX="214.0" layoutY="333.0" mnemonicParsing="false" onAction="#currecy" prefHeight="61.0" prefWidth="118.0" style="-fx-background-radius: 15; -fx-background-color: #36454f;" text="Currency" textFill="WHITE">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="editemployee" layoutX="214.0" layoutY="426.0" mnemonicParsing="false" onAction="#editemployee" prefHeight="61.0" prefWidth="118.0" style="-fx-background-radius: 15; -fx-background-color: #36454f;" text="Edit Employee" textFill="WHITE" />
+      <AnchorPane fx:id="perfrenceui" layoutX="371.0" layoutY="141.0" prefHeight="40.0" prefWidth="184.0" style="-fx-background-color: #36454f;">
+         <children>
+            <RadioButton fx:id="light" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#light" text="Light" textFill="WHITE" />
+            <RadioButton fx:id="dark" layoutX="84.0" layoutY="10.0" mnemonicParsing="false" onAction="#dark" text="Dark" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="editemployeeui" layoutX="363.0" layoutY="214.0" prefHeight="273.0" prefWidth="184.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <Button fx:id="removeemployee" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#removeemployee" prefHeight="53.0" prefWidth="149.0" text="Remove Employee" />
+            <Button fx:id="addemployee" layoutX="14.0" layoutY="72.0" mnemonicParsing="false" onAction="#addemployee" prefHeight="53.0" prefWidth="149.0" text="Add Employee" />
+            <Button fx:id="changeposition" layoutX="14.0" layoutY="131.0" mnemonicParsing="false" onAction="#changeposition" prefHeight="53.0" prefWidth="149.0" text="Change position" />
+            <Button fx:id="changesalary" layoutX="14.0" layoutY="192.0" mnemonicParsing="false" onAction="#changesalary" prefHeight="53.0" prefWidth="149.0" text="Change Salary" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="idui" layoutX="571.0" layoutY="361.0" prefHeight="131.0" prefWidth="254.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <TextField fx:id="idinput" layoutX="34.0" layoutY="31.0" onAction="#idinput" promptText="ID" />
+            <Button fx:id="enter" layoutX="166.0" layoutY="75.0" mnemonicParsing="false" onAction="#enter" text="Enter" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="849.0" layoutY="194.0" prefHeight="297.0" prefWidth="254.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <TextField fx:id="editname" layoutX="25.0" layoutY="21.0" onAction="#editname" promptText="Edit Name" />
+            <TextField fx:id="editpassword" layoutX="25.0" layoutY="72.0" onAction="#editpassword" promptText="Edit Password" />
+            <Button layoutX="157.0" layoutY="252.0" mnemonicParsing="false" text="Enter" />
+            <TextField fx:id="editid" layoutX="25.0" layoutY="118.0" onAction="#editid" promptText="Edit ID" />
+            <TextField fx:id="editsalary" layoutX="25.0" layoutY="166.0" onAction="#editsalary" promptText="Edit Salary" />
+            <TextField fx:id="editposition" layoutX="25.0" layoutY="213.0" onAction="#editposition" promptText="Edit Position" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="currencyui" layoutX="363.0" layoutY="337.0" prefHeight="53.0" prefWidth="529.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <RadioButton fx:id="kyat" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#kyat" text="Myanmar Kyat" textFill="white" />
+            <RadioButton fx:id="dollar" layoutX="146.0" layoutY="16.0" mnemonicParsing="false" onAction="#dollar" text="US Dollar" textFill="white"/>
+            <RadioButton fx:id="baht" layoutX="250.0" layoutY="16.0" mnemonicParsing="false" onAction="#baht" text="Thailand Baht" textFill="white"/>
+            <RadioButton fx:id="yen" layoutX="384.0" layoutY="16.0" mnemonicParsing="false" onAction="#yen" text="Japanese Yen" textFill="white"/>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="363.0" layoutY="378.0" prefHeight="149.0" prefWidth="200.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <Button fx:id="toremoveemployee" layoutX="26.0" layoutY="89.0" mnemonicParsing="false" onAction="#toremoveemployee" prefHeight="31.0" prefWidth="149.0" text="Remove Employee" />
+            <Button fx:id="toeditemployee" layoutX="26.0" layoutY="33.0" mnemonicParsing="false" onAction="#toeditemployee" prefHeight="31.0" prefWidth="149.0" text="Edit Employee" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="371.0" layoutY="233.0" prefHeight="109.0" prefWidth="200.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <TextField fx:id="roomid" layoutX="18.0" layoutY="28.0" onAction="#roomid" prefHeight="21.0" prefWidth="164.0" promptText="Room ID" />
+            <Button layoutX="117.0" layoutY="64.0" mnemonicParsing="false" text="Button" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="editroomui" layoutX="363.0" layoutY="161.0" prefHeight="197.0" prefWidth="243.0" style="-fx-background-color: #36454f;" visible="false">
+         <children>
+            <TextField fx:id="editroomtype" layoutX="12.0" layoutY="8.0" onAction="#editroomtype" prefHeight="21.0" prefWidth="164.0" promptText="Edit room type" />
+            <TextField fx:id="editroomid" layoutX="14.0" layoutY="55.0" onAction="#editroomid" prefHeight="21.0" prefWidth="164.0" promptText="Edit room id" />
+            <TextField fx:id="editroomprice" layoutX="14.0" layoutY="105.0" onAction="#editroomprice" prefHeight="21.0" prefWidth="164.0" promptText="Edit room price" />
+            <Button layoutX="162.0" layoutY="151.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="Ok" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

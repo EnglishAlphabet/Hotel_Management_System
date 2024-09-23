@@ -1,0 +1,40 @@
+#dashboard3{
+    -fx-background-color: transparent;
+}
+
+#dashboard3:hover{
+    -fx-background-color: lightblue; /* Change to desired hover color */
+    
+}
+#customer3{
+    -fx-background-color: transparent;
+}
+
+#customer3:hover{
+    -fx-background-color: lightblue; /* Change to desired hover color */
+    
+}
+#employee3{
+    -fx-background-color: transparent;
+}
+
+#employee3:hover{
+    -fx-background-color: lightblue; /* Change to desired hover color */
+    
+}
+#setting3{
+    -fx-background-color: transparent;
+}
+
+#setting3:hover{
+    -fx-background-color: lightblue; /* Change to desired hover color */
+    
+}
+#logout3{
+    -fx-background-color: transparent;
+}
+
+#logout3:hover{
+    -fx-background-color: lightblue; /* Change to desired hover color */
+    
+}

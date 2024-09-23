@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="727.0" prefWidth="1202.0" style="-fx-background-color: #34495e;" stylesheets="@customerdark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Admin.Customerpageeditordark">
+   <children>
+      <AnchorPane prefHeight="727.0" prefWidth="196.0" style="-fx-background-color: #2b2b2b;">
+         <children>
+            <Button fx:id="dashboard3" layoutX="14.0" layoutY="168.0" mnemonicParsing="false" onAction="#switchtodashboard3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Dashboard" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fitHeight="161.0" fitWidth="200.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Untitled.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="customer3" layoutX="14.0" layoutY="250.0" mnemonicParsing="false" onAction="#switchtocustomer3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Customer" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="employee3" layoutX="14.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchtoemployee3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Employee" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="logout3" layoutX="16.0" layoutY="585.0" mnemonicParsing="false" onAction="#logouttomainpage3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Logout" textFill="WHITE" AnchorPane.bottomAnchor="67.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="setting3" layoutX="15.0" layoutY="416.0" mnemonicParsing="false" onAction="#switchtosetting3" prefHeight="75.0" prefWidth="164.0" style="-fx-font-size: 20; -fx-background-radius: 20;" text="Setting" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Text layoutX="218.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
+      <TableView editable="true" layoutX="196.0" layoutY="63.0" prefHeight="664.0" prefWidth="1007.0" style="-fx-background-color: #36454f;">
+        <columns>
+          <TableColumn prefWidth="104.0" text="Booking ID" />
+          <TableColumn prefWidth="187.0" text="Customer Name" />
+            <TableColumn prefWidth="159.0" text="Room Type" />
+            <TableColumn prefWidth="107.0" text="Total Number" />
+            <TableColumn prefWidth="108.0" text="Arrival Time" />
+            <TableColumn prefWidth="174.0" text="Arrival Date" />
+            <TableColumn prefWidth="174.0" text="Depecture Date" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
