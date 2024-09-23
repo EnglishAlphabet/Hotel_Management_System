@@ -1,10 +1,20 @@
-/*
-
+/**
 * The Code is still unfinished
-* May have bugs and unnecessary imports/codes
-* 
+* May have bugs and unnecessary lines of codes
+* Inconsistent practices and codes
+*
 * */
 
+/* DATABASE TABLE FOR IMAGE 
+*
+*
+*CREATE TABLE image_store (
+*id INT auto_increment primary key,
+*image_name varchar(255) not null,
+*image_data longblob 
+*);
+*
+***********************************/
 
 
 package beta.database.controller;
@@ -16,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class image_controller {
@@ -40,9 +51,11 @@ public class image_controller {
         }
     }
 
-    public static void retrieveImage(){
+    public static List<byte[]> retrieveImage(){
+        
         String query = "SELECT * FROM image_store";
-
+        List<byte []> ImgByteList = new ArrayList<>();
+            
         try(Connection con = DBConnection.getConnection();
             PreparedStatement psmt = con.prepareStatement(query)){
 
@@ -50,17 +63,19 @@ public class image_controller {
             while(rs.next()){
                 String name = rs.getString(2);
                 Blob b = rs.getBlob(3);
-                byte barr[]=b.getBytes(1,(int)b.length());//1 means first image
-
-                //Downloading on to desktop
-                FileOutputStream fout=new FileOutputStream("/Users/thantzinlin/Desktop/"+name+".png");
-                fout.write(barr);
-                fout.close();
-
+                byte img[]=b.getBytes(1,(int)b.length());//1 means first image
+                ImgByteList.add(img);
+                
+                //Downloading to desktop
+//                FileOutputStream fout=new FileOutputStream("path"+name+".png");
+//                fout.write(img);
+//                fout.close();
             }
+            return ImgByteList;
 
         }catch(Exception e){
             e.printStackTrace();
+            return null;
         }
     }
 
