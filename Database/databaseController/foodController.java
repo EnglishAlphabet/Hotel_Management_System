@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.booking;
 import Model.customer;
 import Model.food;
 import Model.room;
@@ -112,7 +114,22 @@ public class foodController {
 		}
 		return FoodByCategory;
 	}
-	
+	public static boolean DeleteMenuiItem(food s) {
+		String sql = "call delete_food_menu(?)";
+		try(Connection con = DBConnection.getConection(); 
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			psmt.setString(1, s.getFood_name());
+			
+			
+			
+			int r = psmt.executeUpdate();
+			return r>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	public static void main(String[] args) {
 		//food f1 = new food("f1", "coke", 15.5, "Drink");
@@ -120,7 +137,7 @@ public class foodController {
 		//food f3 = new food(1, "apple", 20.50, "fruit");
 		//updateMenu(f3);
 		
-		try {
+		/*try {
 			List<food> foodbycategory =  foodController.getFoodByFoodCategory("snack");
 			
 			for (food food : foodbycategory) {
@@ -129,6 +146,7 @@ public class foodController {
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-			}
+			}*/
+		DeleteMenuiItem(new food("sushi"));
 	}
 }

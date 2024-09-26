@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +52,23 @@ public class paymentController {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public static boolean performPayment(payment s) {
+		String sql = "call perform_payment(?,?,?)";
+		try(Connection con = DBConnection.getConection(); 
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			psmt.setString(1, s.getBooking_id().getBooking_id());
+			psmt.setDouble(2, s.getAmount());
+			psmt.setString(3, s.getPayment_method());
+			
+			
+			int r = psmt.executeUpdate();
+			return r>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }

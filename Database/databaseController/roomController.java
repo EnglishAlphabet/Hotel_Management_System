@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.CallableStatement;
+
+import Model.booking;
 import Model.customer;
 import Model.food;
 import Model.room;
@@ -16,14 +20,14 @@ import util.DBConnection;
 
 public class roomController {
 
-	public static boolean saveRoom(room s) {
-		String sql = "insert into room values(?,?,?,?)";
+	public static boolean addRoom(room s) {
+		String sql = "call add_room(?,?,?)";
 		try(Connection con = DBConnection.getConection(); 
-			PreparedStatement psmt = con.prepareStatement(sql);){
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
 			psmt.setString(1, s.getRoom_no());
 			psmt.setString(2, s.getRoom_type().getRoom_type());
 			psmt.setInt(3, s.getFloor());
-			psmt.setString(4, s.getRoom_status().getRoom_status_id());
+			
 			
 			int r = psmt.executeUpdate();
 			return r>0;
@@ -112,6 +116,65 @@ public class roomController {
 		}
 		return filteredRooms;
 	}
+	public static boolean searchAvailableRoomsWithinDate(booking s) {
+		String sql = "call search_available_rooms_within_date(?,?)";
+		try(Connection con = DBConnection.getConection(); 
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			psmt.setString(1,s.getCheck_in().toString());
+			psmt.setString(2, s.getCheck_out().toString());
+			
+			
+			
+			int r = psmt.executeUpdate();
+			return r>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public static boolean searchCustomerRoomByNRC(customer s) {
+		String sql = "call search_booking(?)";
+		try(Connection con = DBConnection.getConection(); 
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			psmt.setString(1, s.getIdentity_card());
+	
+			int r = psmt.executeUpdate();
+			return r>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public static boolean searchCustomerByRoomNo(room s) {
+		String sql = "call search_by_roomNo(?)";
+		try(Connection con = DBConnection.getConection(); 
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			psmt.setString(1, s.getRoom_no());
+	
+			int r = psmt.executeUpdate();
+			return r>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public static boolean getRoomByRoomType(roomType s) {
+		String sql = "call search_room_type(?)";
+		try(Connection con = DBConnection.getConection(); 
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			psmt.setString(1, s.getDescription());
+	
+			int r = psmt.executeUpdate();
+			return r>0;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public static void main(String[] args) {
 		//System.out.println(getAllRooms().toString());
 		//room r = new room("3", new roomType("r2"),"available");
@@ -128,7 +191,14 @@ public class roomController {
 			e.printStackTrace();
 		}
 		*/
-		updateRoomStatus(new room("5", new roomType("r2"), 2, new room_status("U", "Unavailable")));
+		//updateRoomStatus(new room("5", new roomType("r2"), 2, new room_status("U", "Unavailable")));
+		//room r = new room("9", new roomType("r1"), 3);
+		//addRoom(r);
+		booking b = new booking(LocalDateTime.of(2024, 12, 18, 12, 12),
+				LocalDateTime.of(2024, 12, 30, 12, 12));
+		searchAvailableRoomsWithinDate(b);
+		System.out.println(b.getRoom());
+		
 	}
 	
 }

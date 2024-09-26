@@ -13,14 +13,16 @@ import util.DBConnection;
 
 public class bookingChargesController {
 	public static boolean addBookingCharges(booking_charges s) {
-		String sql = "insert into booking_charges values(? , ? ,?,? )";
+		String sql = "insert into booking_charges values(? , ? ,?,?,?,? )";
 		try(Connection con = DBConnection.getConection(); 
 			PreparedStatement psmt = con.prepareStatement(sql);){
 			psmt.setString(1, s.getBooking_id().getBooking_id());
 			psmt.setDouble(2, s.getTotal_room_charges());
-			psmt.setDouble(3, s.getTotal_order_charges());
-			psmt.setDouble(4, s.getTotal_booking_charges());
-			
+			psmt.setDouble(3, s.getDeposit());
+			psmt.setDouble(4, s.getTotal_order_charges());
+			psmt.setDouble(5, s.getTotal_booking_charges());
+			psmt.setDouble(6, s.getRemainingAmount());
+
 			 
 			int r = psmt.executeUpdate();
 			return r>0;
@@ -41,9 +43,11 @@ public class bookingChargesController {
 			while (rs.next()) {
 				booking bookingId = bookingController.getBookingById(rs.getString(1));
 				double tRoomCharges = rs.getDouble(2);
-				double tOrderCharges = rs.getDouble(3);
-				double tBookingCharges = rs.getDouble(4);
-				booking_charges charges = new booking_charges(bookingId, tRoomCharges, tOrderCharges, tBookingCharges);
+				double deposit = rs.getDouble(3);
+				double tOrderCharges = rs.getDouble(4);
+				double tBookingCharges = rs.getDouble(5);
+				double remainAmount = rs.getDouble(6);
+				booking_charges charges = new booking_charges(bookingId, tRoomCharges,deposit, tOrderCharges, tBookingCharges,remainAmount);
 				list.add(charges);
 			}
 			rs.close();
@@ -59,7 +63,7 @@ public class bookingChargesController {
 			psmt.setString(1, bookingId);
 			ResultSet rs = psmt.executeQuery();
 			if (rs.next()) {
-				return new booking_charges(bookingController.getBookingById(rs.getString(1)), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4));
+				return new booking_charges(bookingController.getBookingById(rs.getString(1)), rs.getDouble(2), rs.getDouble(3), rs.getDouble(4),rs.getDouble(5),rs.getDouble(6));
 			}
 			
 		}

@@ -4,9 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.CallableStatement;
+
+import Model.booking;
+import Model.customer;
 import Model.food;
+import Model.order;
+import Model.order_food;
+import Model.room;
 import Model.stock;
 import util.DBConnection;
 
@@ -79,9 +87,35 @@ public class stockController {
 			return false;
 		}
 	}
+	public static boolean subtractStock(order_food o) {
+		String sql = "{Call add_food_and_update_stock(?,?,?,?)}";
+		try (Connection con = DBConnection.getConection();) {
+			
+			CallableStatement cstmt = (CallableStatement) con.prepareCall(sql);
+			
+			//order_food o = orderFoodController.getOrderFoodByOrderFoodId(orderFood_ID);
+			
+			cstmt.setString(1,o.getOrder_food_id());
+			cstmt.setString(2, o.getRoomNo().getRoom_no());
+			cstmt.setInt(3, o.getFood_id().getFood_id());
+			cstmt.setInt(4, o.getFood_quantity());
+			
+			cstmt.execute();
+			
+			return true;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public static void main(String[] args) {
 		System.out.println(getAllStock());
-		updateStock(new stock(new food(7, "steak", 10000, "Main Dish", "Avaliable"), 30));
+		//updateStock(new stock(new food(7, "steak", 10000, "Main Dish", "Avaliable"), 30));
+		//booking b1 = new booking("S214", new customer("c1"), new room("1"), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), 1, 12, "Booked");
+		order_food o = new order_food("19",new room("1"), new food(1), 5);
+		subtractStock(o);
 	}
 
 }

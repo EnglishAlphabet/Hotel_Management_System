@@ -13,7 +13,7 @@ import util.DBConnection;
 
 public class customerController {
 
-	public static boolean saveCustomer(customer s) {
+	public static boolean addCustomer(customer s) {
 		String sql = "insert into customer values(? , ? ,? ,?,?)";
 		try(Connection con = DBConnection.getConection(); 
 			PreparedStatement psmt = con.prepareStatement(sql);){

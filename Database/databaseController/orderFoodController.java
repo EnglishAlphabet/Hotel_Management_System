@@ -23,7 +23,7 @@ public class orderFoodController {
 		try(Connection con = DBConnection.getConection(); 
 			PreparedStatement psmt = con.prepareStatement(sql);){
 			psmt.setString(1, s.getOrder_food_id());
-			psmt.setString(2, s.getOrder_id().getOrder_id());
+			psmt.setString(2, s.getBooking_id().getBooking_id());
 			psmt.setString(3, s.getRoomNo().getRoom_no());
 			psmt.setInt(4, s.getFood_id().getFood_id());
 			psmt.setInt(5, s.getFood_quantity());
@@ -46,12 +46,12 @@ public class orderFoodController {
 			
 			while (rs.next()) {
 				String orderFoodId = rs.getString(1);
-				order orderId = orderController.getOrderById(rs.getString(2));
+				booking bookingId = bookingController.getBookingById(rs.getString(2));
 				room roomNo = roomController.getRoomById(rs.getString(3));
 				food foodId = foodController.getFoodById(rs.getInt(4));
 				int foodQuantity = rs.getInt(5);
 				double ftotalPrice = rs.getDouble(6);
-				order_food orderedFood = new order_food(orderFoodId, orderId, roomNo, foodId, foodQuantity, ftotalPrice);
+				order_food orderedFood = new order_food(orderFoodId, bookingId, roomNo, foodId, foodQuantity, ftotalPrice);
 				list.add(orderedFood);
 			}
 			rs.close();
@@ -97,6 +97,25 @@ public class orderFoodController {
 		}
 		return list;
 	}
+	public static order_food getOrderFoodByOrderFoodId(String order_food_id) {
+		String sql = "select * from order_food where order_food_id=?";
+		try (Connection con = DBConnection.getConection();
+				PreparedStatement psmt = con.prepareStatement(sql)){
+			psmt.setString(1, order_food_id);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				return new order_food(rs.getString(1),bookingController.getBookingById(rs.getString(2))
+						, roomController.getRoomById(rs.getString(3)), foodController.getFoodById(4),
+						rs.getInt(5), rs.getDouble(6)) ;
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
 	public static charges_for_food getFoodChargesByBookingId(String bookingId) {
 		String sql = "select * from charges_for_food where booking_id=?";
 		try (Connection con = DBConnection.getConection();

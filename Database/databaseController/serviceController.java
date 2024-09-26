@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.CallableStatement;
+
 import Model.food;
 import Model.service;
 import util.DBConnection;
@@ -13,13 +15,13 @@ import util.DBConnection;
 public class serviceController {
 	
 	public static boolean addService(service s) {
-		String sql = "insert into service values(?,?,?,?)";
+		String sql = "call add_service(?,?,?)";
 		try(Connection con = DBConnection.getConection(); 
-			PreparedStatement psmt = con.prepareStatement(sql);){
-			psmt.setString(1, s.getService_id());
-			psmt.setString(2, s.getService_name());
-			psmt.setDouble(3, s.getPrice());
-			psmt.setString(4, s.getDescription());
+			CallableStatement psmt = (CallableStatement) con.prepareCall(sql);){
+			
+			psmt.setString(1, s.getService_name());
+			psmt.setDouble(2, s.getPrice());
+			psmt.setString(3, s.getDescription());
 			 
 			int r = psmt.executeUpdate();
 			return r>0;
@@ -84,5 +86,8 @@ public class serviceController {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	public static void main(String[] args) {
+		addService(new service("Massage", 20000, "To relax"));
 	}
 }
