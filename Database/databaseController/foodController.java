@@ -84,16 +84,22 @@ public class foodController {
 		return null;
 	}
 	public static boolean updateMenu(food s) {
-		String sql = "update food set food_name=?, food_price=? ,food_category=? , stock_status=? where food_id=?";
+		String sql = "update food set food_name=?, food_price=? , food_image =?,food_category=? , stock_status=? where food_id=?";
 		try (Connection con = DBConnection.getConection();) {
 			
 			PreparedStatement psmt = con.prepareStatement(sql);
 			
 			psmt.setString(1, s.getFood_name());
 			psmt.setDouble(2, s.getFood_price());
-			psmt.setString(3, s.getfood_category());
-			psmt.setString(4, s.getStock_status());
-			psmt.setInt(4, s.getFood_id());
+			
+			
+			File image = new File(s.getImgPath());
+			FileInputStream fis = new FileInputStream(image);
+			psmt.setBinaryStream(3, fis, (int) image.length());
+			
+			psmt.setString(4, s.getfood_category());
+			psmt.setString(5, s.getStock_status());
+			psmt.setInt(6, s.getFood_id());
 			 psmt.executeUpdate();
 			return true;
 		} catch (Exception e) {
