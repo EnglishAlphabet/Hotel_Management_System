@@ -76,12 +76,12 @@ private void applySettings(Parent root){
         try {  
             switch (theme) {  
                 case "light":  
-                    URL lightPath = new File("src/main/resources/beta/hotelver1/dashboard.css").toURI().toURL();  
+                    URL lightPath = new File("src/main/resources/beta/hotelver1/settings.css").toURI().toURL();  
                     root.getStylesheets().clear();  
                     root.getStylesheets().add(lightPath.toExternalForm());  
                     break;  
                 case "dark":  
-                    URL darkPath = new File("src/main/resources/beta/hotelver1/dashboardDark.css").toURI().toURL();  
+                    URL darkPath = new File("src/main/resources/beta/hotelver1/settingsdark.css").toURI().toURL();  
                     root.getStylesheets().clear();  
                     root.getStylesheets().add(darkPath.toExternalForm());  
 					break;
