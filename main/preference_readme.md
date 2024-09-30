@@ -153,3 +153,15 @@ public void start(Stage stage) throws Exception {
     stage.show();  
 }
 ```
+---
+
+#### Possible Implementation
+
+To allow each user to have their own set of preferences while being stored on the same device.
+We can probably get the userID from the login controller or some sort idk.
+Why use different preference node name?
+Becuase perhaps the night shifters may not want to be blinded by the light theme, which the day shifters set the current theme of this software on the same device.
+```
+private static final String PREFERENCE_NODE_NAME = "hotel.users." + userID;
+
+```
