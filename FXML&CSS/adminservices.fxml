@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="727.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="beta.hotelver1.controller.foodController">
+   <children>
+      <AnchorPane id="navbar" layoutX="21.0" layoutY="32.0" prefHeight="727.0" prefWidth="172.0" style="-fx-background-radius: 1.25em;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <ImageView fitHeight="142.0" fitWidth="139.0" layoutX="16.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="15.0" />
+            <Button id="buttons" fx:id="dashboard" layoutX="52.0" layoutY="158.0" mnemonicParsing="false" onAction="#switchToDashboard" prefHeight="75.0" prefWidth="164.0" style="-fx-background-radius: 2em 0 0 2em; -fx-border-radius: 2em 0 0 2em; -fx-font-size: 18px;" text="Dashboard" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="155.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button id="buttons" fx:id="guests" layoutX="57.0" layoutY="237.0" mnemonicParsing="false" onAction="#switchtorooms" prefHeight="75.0" prefWidth="164.0" style="-fx-background-radius: 2em 0 0 2em; -fx-font-size: 18px;" text="Rooms" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="234.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button id="buttons" fx:id="bookings" layoutX="57.0" layoutY="317.0" mnemonicParsing="false" onAction="#switchtobookings" prefHeight="75.0" prefWidth="164.0" style="-fx-background-radius: 2em 0 0 2em; -fx-font-size: 18px;" text="Bookings" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="313.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button id="logout" fx:id="logout" layoutX="39.0" layoutY="613.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="94.0" style="-fx-font-size: 18; -fx-background-radius: 2em;" text="Logout" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="39.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <Button id="currentPage" fx:id="services" layoutX="57.0" layoutY="397.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="164.0" style="-fx-background-radius: 2em 0 0 2em; -fx-font-size: 18px; -fx-border-color: #F3D0D7; -fx-border-radius: 2em 0 0 2em; -fx-border-width: 1px 0 1px 1px;" text="Services" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="392.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button id="buttons" fx:id="setting" layoutX="56.0" layoutY="477.0" mnemonicParsing="false" onAction="#switchtosetting" prefHeight="75.0" prefWidth="164.0" style="-fx-background-radius: 2em 0 0 2em; -fx-font-size: 18px; -fx-border-radius: 2em 0 0 2em; -fx-border-width: 1px 0 1px 1px;" text="Settings" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="471.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <TabPane id="main-tab" layoutX="216.0" layoutY="20.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="216.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="20.0">
+         <tabs>
+            <Tab id="servicestab" closable="false" text="Services">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab id="foodtab" closable="false" text="Food">
+               <content>
+                  <VBox id="view" alignment="CENTER_LEFT" prefHeight="700.0" prefWidth="974.0" style="-fx-spacing: 15px;">
+                     <children>
+                        <AnchorPane />
+                        <HBox style="-fx-spacing: 15px;" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TabPane id="food-view" style="-fx-font-size: 12px;" HBox.hgrow="ALWAYS">
+                                 <tabs>
+                                    <Tab id="foods" closable="false" text="Foods">
+                                       <content>
+                                          <VBox style="-fx-spacing: 15px;">
+                                             <children>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="395.0" prefWidth="974.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                                                   <content>
+                                                      <TilePane fx:id="catView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 1.25em; -fx-padding: 15px;" />
+                                                   </content>
+                                                </ScrollPane>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="690.0" prefWidth="974.0" style="-fx-background-color: transparent;">
+                                                   <content>
+                                                      <TilePane fx:id="itemsView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 1.25em; -fx-padding: 15px;" />
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </Tab>
+                                    <Tab id="inv" closable="false" text="Inventory">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                      </content>
+                                    </Tab>
+                                 </tabs>
+                              </TabPane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
