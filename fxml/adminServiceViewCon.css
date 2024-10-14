@@ -1,0 +1,62 @@
+#lblTitle{
+	-fx-background-color: #0c0c0c;
+	-fx-text-fill:white;
+	-fx-padding:0px 0px 0px 10px;
+}
+#lblDiscription{
+	-fx-background-color: #0c0c0c;
+	-fx-text-fill:white;
+	-fx-padding:0px 0px 0px 10px;
+}
+#lblPrice{
+	-fx-background-color: #0c0c0c;
+	-fx-text-fill:white;
+	-fx-padding:0px 0px 0px 10px;
+}
+#vbox1{
+	-fx-background-color: #0c0c0c;
+	-fx-text-fill:white;
+}
+#btnLeft{
+	-fx-background-color:#0c0c0c;
+	-fx-text-fill:white;
+}
+#btnRight{
+	-fx-background-color:#0c0c0c;
+	-fx-text-fill:white;
+}
+#btnAdd{
+	-fx-base: #05f846;
+	-fx-background-radius:20px;
+	-fx-text-fill:black;
+	-fx-font-weight:500;
+}
+#serviceAnchor{
+	-fx-background-color:#0c0c0c;
+}
+#hboxService{
+	-fx-background-color:#0c0c0c;
+}
+#btnorder{
+	-fx-base:#05f846;
+	-fx-font-weight: 500;
+	-fx-font-size:16px;
+	
+}
+#lblItemTitle{
+	-fx-text-fill:white;
+	-fx-font-size:20px;
+	-fx-padding:0px 0px 0px 10px;
+}
+#lblItemDescription{
+	-fx-text-fill:white;
+	-fx-font-size:16px;
+	-fx-padding:0px 0px 0px 10px;
+}
+#lblItemPrice{
+	-fx-text-fill:white;
+	-fx-font-size:16px;
+	-fx-padding:0px 0px 0px 10px;
+}
+
+
