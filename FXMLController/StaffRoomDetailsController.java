@@ -1,11 +1,14 @@
 package application;
 
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -127,6 +130,11 @@ public class StaffRoomDetailsController {
 	@FXML
 	private TextField Email;
 	
+	@FXML
+	private AnchorPane body;
+	
+	private String selectedRoomNo;
+	
 	
 	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/school_project";//add your database_url
 	private static final String DB_USER = "root";//add your user name
@@ -216,11 +224,14 @@ public class StaffRoomDetailsController {
 					floorText.setText(floor);
 					roomPrice.setText(price+" $");
 					this.roomPrice1.setText(price_per_hour+" $");
+					 selectedRoomNo = roomId;
+					 if ("Unavailable".equals(status)) {
+					        fetchAndDisplayCustomerDetails(roomId);}
 				});
 
 				roomGridPane.add(roomButton, col, row);
 				col++;
-				if (col == 7) {  // Max 7 buttons per row
+				if (col == 7) { 
 					col = 0;
 					row++;
 				}
@@ -234,6 +245,110 @@ public class StaffRoomDetailsController {
 			e.printStackTrace();
 		}
 	}
+
+	private void fetchAndDisplayCustomerDetails(String roomId) {
+	    String query = "SELECT customer.customer_name, customer.phone_no, customer.email, customer.id_card " +
+	                   "FROM customer " +
+	                   "JOIN booking ON customer.customer_id = booking.customer_id " +
+	                   "JOIN booking_room_detail ON booking.booking_id = booking_room_detail.booking_id " +
+	                   "JOIN room ON booking_room_detail.room_no = room.room_no " +
+	                   "WHERE room.room_no = ? AND booking_room_detail.booking_status = 'Arrived'";
+
+	    try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+	        stmt.setString(1, roomId); // Set the room number
+
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            String fullName = rs.getString("customer_name");
+	            String phoneNumber = rs.getString("phone_no");
+	            String idCard = rs.getString("id_card");
+	            String email = rs.getString("email");
+
+	            // Create a new pane to display these details
+	            AnchorPane customerDetailsPane = new AnchorPane();
+	            customerDetailsPane.setPrefSize(400, 300); // Set size of the pane
+	            customerDetailsPane.setStyle("-fx-background-color: white;"
+	                                       + "-fx-background-radius: 10;");
+
+	            // Add Labels and Text for each data
+	            Text fullNameLabel = new Text("Full Name: " + fullName);
+	            Text phoneLabel = new Text("Phone Number: " + phoneNumber);
+	            Text idCardLabel = new Text("ID Card: " + idCard);
+	            Text emailLabel = new Text("Email: " + email);
+
+	            // Create Buttons
+	            Button cancelButton = new Button("Cancel");
+	            Button checkOutButton = new Button("Check Out");
+
+	            // Position elements in the pane
+	            AnchorPane.setTopAnchor(fullNameLabel, 10.0);
+	            AnchorPane.setLeftAnchor(fullNameLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(phoneLabel, 40.0);
+	            AnchorPane.setLeftAnchor(phoneLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(idCardLabel, 70.0);
+	            AnchorPane.setLeftAnchor(idCardLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(emailLabel, 100.0);
+	            AnchorPane.setLeftAnchor(emailLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(cancelButton, 140.0);
+	            AnchorPane.setLeftAnchor(cancelButton, 10.0);
+
+	            AnchorPane.setTopAnchor(checkOutButton, 140.0);
+	            AnchorPane.setLeftAnchor(checkOutButton, 100.0);
+
+	            // Add all elements to the pane
+	            customerDetailsPane.getChildren().addAll(fullNameLabel, phoneLabel, idCardLabel, emailLabel, cancelButton, checkOutButton);
+
+	          
+	        
+	            
+	            
+	            AnchorPane overlayPane = new AnchorPane();
+	            overlayPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
+	            overlayPane.setPrefSize(body.getWidth(), body.getHeight());
+	            body.getChildren().add(overlayPane);
+	            
+	            
+	            double paneWidth = customerDetailsPane.getPrefWidth();
+	            double paneHeight = customerDetailsPane.getPrefHeight();
+	            double bodyWidth = body.getWidth();
+	            double bodyHeight = body.getHeight();
+
+	            double centerX = (bodyWidth - paneWidth) / 2;
+	            double centerY = (bodyHeight - paneHeight) / 2;
+
+	            customerDetailsPane.setLayoutX(centerX);
+	            customerDetailsPane.setLayoutY(centerY);
+
+	           
+	            body.getChildren().add(customerDetailsPane);
+	            
+
+	        
+	            cancelButton.setOnAction(e -> {
+	            	 body.getChildren().removeAll(overlayPane, customerDetailsPane); 
+	            });
+
+	            checkOutButton.setOnAction(e -> {
+	                RoomShowBody.setOpacity(1.0); // Restore the opacity
+	                
+	            });
+
+	        } else {
+	            System.out.println("No ongoing booking found for room " + roomId);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error fetching customer details: " + e.getMessage());
+	    }
+	}
+
 
 	@FXML
 	void SearchRoom(ActionEvent event) {
@@ -284,7 +399,7 @@ public class StaffRoomDetailsController {
 
 	@FXML
 	void BookingAction(ActionEvent event) {
-
+    
 	}
 
 	@FXML
@@ -293,7 +408,55 @@ public class StaffRoomDetailsController {
 	}
 	@FXML
 	void SubmitAction(ActionEvent event) {
+	  
+	    if (selectedRoomNo == null || selectedRoomNo.isEmpty()) {
+	        System.out.println("Please select a room before booking.");
+	        return;
+	    }
+
+	    // Collect guest information from the form
+	    String firstName = FirstName.getText();
+	    String lastName = LastName.getText();
+	    String guestName = firstName + " " + lastName;
+	    String phone_number = phoneNumber.getText();
+	    String guestId = idORnrc.getText();
+	    String email = Email.getText();
+	    LocalDate checkInDate = LocalDate.now(); // Assuming check-in is now (replace with actual if needed)
+	    int stayDurationNights = Integer.parseInt(duration.getText());
+	    int stayDurationHours = 0; // Set to 0 unless you have an additional input for hours
+
+	    String sql = "CALL add_booking(?, ?, ?, ?, ?, ?, ?, ?)";
+
+	    try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
+	         CallableStatement psmt = con.prepareCall(sql)) {
+            con.setAutoCommit(false);
+	        // Set procedure parameters
+	        psmt.setString(1, selectedRoomNo); 
+	        psmt.setString(2, guestName);      
+	        psmt.setString(3, phone_number);    
+	        psmt.setString(4, guestId);
+	        psmt.setString(5,email);
+	        psmt.setDate(6, java.sql.Date.valueOf(checkInDate));
+	        psmt.setInt(7, stayDurationNights);
+	        psmt.setInt(8, stayDurationHours);
+
+	        // Execute the stored procedure
+	        int result = psmt.executeUpdate();
+
+	        // Commit the transaction if successful
+	        if (result > 0) {
+	            con.commit();
+	            System.out.println("Booking added successfully.");
+	          
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage() + " Error occurred during booking.");
+	      
+	    }
 	}
+
+
 
 	@FXML
 	void SwitchToBookingDetails(ActionEvent event) throws IOException {
@@ -335,16 +498,21 @@ public class StaffRoomDetailsController {
 	@FXML
     void increaseAction(ActionEvent event) {
 		
-		
-		
+
     }
     @FXML
     void decreaseAction(ActionEvent event) {
     	
-    	
-    	
+    }
+    @FXML
+    void increaseAction1(ActionEvent event) {
     	
     }
+    @FXML
+    void decreaseAction1(ActionEvent event) {
+    	
+    }
+    
 	@FXML
 	void SwitchToSetting(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("Setting.fxml"));
