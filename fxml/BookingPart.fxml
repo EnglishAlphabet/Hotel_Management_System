@@ -13,16 +13,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="738.0" prefWidth="1046.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="738.0" prefWidth="1303.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.BookingDetailsController">
    <children>
       <AnchorPane layoutY="-7.0" prefHeight="747.0" prefWidth="162.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-7.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="588.8000000000001" AnchorPane.topAnchor="7.6">
                <image>
                   <Image url="@../../../SchoolProject/src/Icon/hotel_6879671.png" />
                </image>
             </ImageView>
-            <Button fx:id="RoomDetailsbtn" layoutX="22.0" layoutY="178.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Room Details" textFill="WHITE">
+            <Button fx:id="RoomDetailsbtn" layoutX="22.0" layoutY="180.0" mnemonicParsing="false" onAction="#SwitchToRoomDetails" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Room Details" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
@@ -30,7 +30,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="BookingDetailsbtn" layoutX="22.0" layoutY="263.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Booking Details" textFill="WHITE">
+            <Button fx:id="BookingDetailsbtn" layoutX="22.0" layoutY="260.0" mnemonicParsing="false" onAction="#SwitchToBookingDetails" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Booking Details" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
@@ -38,7 +38,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="Servicesbtn" layoutX="22.0" layoutY="348.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Services" textFill="WHITE">
+            <Button fx:id="Servicesbtn" layoutX="22.0" layoutY="340.0" mnemonicParsing="false" onAction="#SwitchToServices" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Services" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
@@ -46,7 +46,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="Settingbtn" layoutX="22.0" layoutY="433.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Setting" textFill="WHITE">
+            <Button fx:id="Settingbtn" layoutX="22.0" layoutY="420.0" mnemonicParsing="false" onAction="#SwitchToSetting" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="Setting" textFill="WHITE">
                <font>
                   <Font size="13.0" />
                </font>
@@ -54,7 +54,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="LogOutbtn" layoutX="22.0" layoutY="664.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="LogOut" textFill="WHITE" AnchorPane.bottomAnchor="20.0">
+            <Button fx:id="LogOutbtn" layoutX="22.0" layoutY="664.0" mnemonicParsing="false" onAction="#SwitchToLogInPage" prefHeight="60.0" prefWidth="118.0" style="-fx-background-radius: 10;" text="LogOut" textFill="WHITE" AnchorPane.topAnchor="673.0">
                <font>
                   <Font size="13.0" />
                </font>
@@ -68,7 +68,7 @@
          <children>
             <AnchorPane prefHeight="60.0" prefWidth="884.0" style="-fx-background-color: #283747;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <TextField layoutX="569.0" layoutY="15.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" style="-fx-background-radius: 10; -fx-border-color: white; -fx-border-radius: 10; -fx-background-color: white;" AnchorPane.rightAnchor="15.0">
+                  <TextField layoutX="569.0" layoutY="15.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" style="-fx-background-radius: 10; -fx-border-color: white; -fx-border-radius: 10; -fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 10, 0.0, 5, 5);" AnchorPane.rightAnchor="15.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -93,20 +93,27 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
-                        <TableView prefHeight="678.0" prefWidth="882.0" AnchorPane.bottomAnchor="-1.6000000000000227" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="bookingTableView" prefHeight="678.0" prefWidth="882.0" AnchorPane.bottomAnchor="-1.6000000000000227" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="ID" />
-                            <TableColumn prefWidth="126.4000015258789" text="First Name" />
-                              <TableColumn prefWidth="126.4000015258789" text="Last Name" />
-                              <TableColumn prefWidth="126.4000015258789" text="Phone Number" />
-                              <TableColumn editable="false" prefWidth="141.59994506835938" sortable="false" text="Show More Details" />
-                              <TableColumn editable="false" prefWidth="347.20001220703125" sortable="false" text="Action">
+                            <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="nameColumn" prefWidth="126.4000015258789" text="Customer Name" />
+                              <TableColumn fx:id="phoneNumberColumn" prefWidth="126.4000015258789" text="Phone Number" />
+                              <TableColumn fx:id="checkinDateColumn" editable="false" prefWidth="117.60000610351562" sortable="false" text="Check-In-Date" />
+                              <TableColumn fx:id="lastaccpetedDateColumn" editable="false" prefWidth="117.60000610351562" sortable="false" text="Last-Accepted-Date" />
+                              <TableColumn fx:id="depositColumn" editable="false" prefWidth="117.60000610351562" sortable="false" text="Deposit" />
+                              <TableColumn editable="false" prefWidth="136.800048828125" sortable="false" text="Taken Rooms">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="131.99993896484375" sortable="false" text="Cancel" />
-                                    <TableColumn editable="false" prefWidth="112.0" sortable="false" text="Submit" />
+                                    <TableColumn fx:id="SingleRoomColumn" editable="false" prefWidth="97.5999755859375" sortable="false" text="Single" />
+                                    <TableColumn fx:id="DoubleRoomColumn" editable="false" prefWidth="88.0001220703125" sortable="false" text="Double" />
                                  </columns>
                               </TableColumn>
-                              <TableColumn prefWidth="39.19998779296873" text="Note" />
+                              <TableColumn editable="false" prefWidth="267.2000610351563" sortable="false" text="Action">
+                                 <columns>
+                                    <TableColumn fx:id="editColumn" editable="false" prefWidth="93.60009765625" sortable="false" text="Edit" />
+                                    <TableColumn fx:id="cancleColumn" editable="false" prefWidth="84.79998779296875" sortable="false" text="Cancle" />
+                                    <TableColumn fx:id="submitColumn" editable="false" prefWidth="90.39990234375" sortable="false" text="Submit" />
+                                 </columns>
+                              </TableColumn>
                           </columns>
                         </TableView>
                      </children></AnchorPane>
