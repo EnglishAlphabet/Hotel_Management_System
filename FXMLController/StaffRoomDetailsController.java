@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -111,77 +112,79 @@ public class StaffRoomDetailsController {
 
 	@FXML
 	private CheckBox doubleRoomCheckBox;
-    
+
 	@FXML
 	private Text roomPrice1;
-	
+
 	@FXML
 	private ComboBox<String> selectRoomscheckBox;
 
 	@FXML
 	private ComboBox<String> selectRoomscheckBox1;
-	
+
 	@FXML
 	private TextField NoOfRooms;
-	
+
 	@FXML
 	private TextField NoOfRooms1;
-	
+
 	@FXML
 	private TextField Email;
-	
+
 	@FXML
 	private AnchorPane body;
-	
-	private String selectedRoomNo;
-	
-	
-	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/school_project";//add your database_url
-	private static final String DB_USER = "root";//add your user name
-	private static final String DB_PASSWORD = "";//add your password
 
-	
+	private String selectedRoomNo;
+
+
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/school_project";//add your database_url
+	private static final String DB_USER = "root";
+	private static final String DB_PASSWORD = "";
+
+
 	@FXML
 	public void initialize() {
 		AddingRooms(null,0);
 		updateRoomCounts();
-        selectRoomscheckBox.getItems().addAll("Select Rooms","Single","Double");
-        selectRoomscheckBox1.getItems().addAll("Select Rooms","Single","Double");
-        NoOfRooms.setText("0");
-        NoOfRooms1.setText("0");
+		selectRoomscheckBox.getItems().addAll("Select Rooms","Single","Double");
+		selectRoomscheckBox1.getItems().addAll("Select Rooms","Single","Double");
+		NoOfRooms.setText("0");
+		NoOfRooms1.setText("0");
+		//updateRoomAvailability();
+	    
 	}
 	public void AddingRooms(String roomIdToSearch, int floorFilter) {
 		RoomShowBody.getChildren().clear();
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
-		
+
 			String query = "SELECT room.room_no, room.floor, room.room_status, room_type.decription, room_price.price_per_night,room_price.price_per_hour " +
-		               "FROM room " +
-		               "JOIN room_type ON room.room_type_id = room_type.room_type_id " +
-		               "JOIN room_price ON room_type.room_type_id = room_price.room_type_id " +
-		               "WHERE 1=1";
-			
-		if (roomIdToSearch != null && !roomIdToSearch.isEmpty()) {
-		    query += " AND room.room_no = ?";
-		}
-		if (floorFilter != 0) {
-		    query += " AND room.floor = ?";
-		}
-		if (singleRoomCheckBox.isSelected() && !doubleRoomCheckBox.isSelected()) {
-		    query += " AND room_type.decription = 'Single'";
-		} else if (doubleRoomCheckBox.isSelected() && !singleRoomCheckBox.isSelected()) {
-		    query += " AND room_type.decription = 'Double'";
-		}
-		
-		PreparedStatement stmt = conn.prepareStatement(query);
-		int index = 1;
-		if (roomIdToSearch != null && !roomIdToSearch.isEmpty()) {
-		    stmt.setString(index++, roomIdToSearch);
-		}
-		if (floorFilter != 0) {
-		    stmt.setInt(index, floorFilter);
-		}
-		
-		ResultSet rs = stmt.executeQuery();
+					"FROM room " +
+					"JOIN room_type ON room.room_type_id = room_type.room_type_id " +
+					"JOIN room_price ON room_type.room_type_id = room_price.room_type_id " +
+					"WHERE 1=1";
+
+			if (roomIdToSearch != null && !roomIdToSearch.isEmpty()) {
+				query += " AND room.room_no = ?";
+			}
+			if (floorFilter != 0) {
+				query += " AND room.floor = ?";
+			}
+			if (singleRoomCheckBox.isSelected() && !doubleRoomCheckBox.isSelected()) {
+				query += " AND room_type.decription = 'Single'";
+			} else if (doubleRoomCheckBox.isSelected() && !singleRoomCheckBox.isSelected()) {
+				query += " AND room_type.decription = 'Double'";
+			}
+
+			PreparedStatement stmt = conn.prepareStatement(query);
+			int index = 1;
+			if (roomIdToSearch != null && !roomIdToSearch.isEmpty()) {
+				stmt.setString(index++, roomIdToSearch);
+			}
+			if (floorFilter != 0) {
+				stmt.setInt(index, floorFilter);
+			}
+
+			ResultSet rs = stmt.executeQuery();
 			GridPane roomGridPane = new GridPane();
 			roomGridPane.setHgap(20);
 			roomGridPane.setVgap(20);
@@ -198,7 +201,7 @@ public class StaffRoomDetailsController {
 
 				Button roomButton = new Button("Room " + roomId);
 				roomButton.setPrefSize(100, 50);
-				
+
 				String commonStyles = "-fx-background-radius: 20;" +
 						"-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 10, 0.0, 5, 5);";
 
@@ -224,9 +227,9 @@ public class StaffRoomDetailsController {
 					floorText.setText(floor);
 					roomPrice.setText(price+" $");
 					this.roomPrice1.setText(price_per_hour+" $");
-					 selectedRoomNo = roomId;
-					 if ("Unavailable".equals(status)) {
-					        fetchAndDisplayCustomerDetails(roomId);}
+					selectedRoomNo = roomId;
+					if ("Unavailable".equals(status)) {
+						fetchAndDisplayCustomerDetails(roomId);}
 				});
 
 				roomGridPane.add(roomButton, col, row);
@@ -247,11 +250,14 @@ public class StaffRoomDetailsController {
 	}
 
 	private void fetchAndDisplayCustomerDetails(String roomId) {
-	    String query = "SELECT customer.customer_name, customer.phone_no, customer.email, customer.id_card " +
+	    String query = "SELECT customer.customer_name, customer.phone_no, customer.email, customer.id_card, " +
+	                   "booking.check_in, booking.check_out, " +
+	                   "booking_charges.deposite, booking_charges.total_room_charges, booking_charges.remaining_amount " +
 	                   "FROM customer " +
 	                   "JOIN booking ON customer.customer_id = booking.customer_id " +
 	                   "JOIN booking_room_detail ON booking.booking_id = booking_room_detail.booking_id " +
 	                   "JOIN room ON booking_room_detail.room_no = room.room_no " +
+	                   "JOIN booking_charges ON booking.booking_id = booking_charges.booking_id " +
 	                   "WHERE room.room_no = ? AND booking_room_detail.booking_status = 'Arrived'";
 
 	    try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
@@ -261,27 +267,86 @@ public class StaffRoomDetailsController {
 
 	        ResultSet rs = stmt.executeQuery();
 
-	        if (rs.next()) {
-	            String fullName = rs.getString("customer_name");
-	            String phoneNumber = rs.getString("phone_no");
-	            String idCard = rs.getString("id_card");
+	        while (rs.next()) {
+	            String customerName = rs.getString("customer_name");
+	            String phone = rs.getString("phone_no");
 	            String email = rs.getString("email");
+	            String idCard = rs.getString("id_card");
+	            Date checkInDate = rs.getDate("check_in");
+	            Date checkOutDate = rs.getDate("check_out");
+	            double deposit = rs.getDouble("deposite");
+	            double totalAmount = rs.getDouble("total_room_charges");
+	            double remainingCharges = rs.getDouble("remaining_amount");
 
 	            // Create a new pane to display these details
 	            AnchorPane customerDetailsPane = new AnchorPane();
-	            customerDetailsPane.setPrefSize(400, 300); // Set size of the pane
-	            customerDetailsPane.setStyle("-fx-background-color: white;"
-	                                       + "-fx-background-radius: 10;");
+	            customerDetailsPane.setPrefSize(400, 450); // Adjusted size for all fields
+	            customerDetailsPane.setStyle("-fx-background-color: #f9f9f9;" +
+	                    "-fx-background-radius: 15;" + 
+	                    "-fx-border-color: #d1d1d1;" + 
+	                    "-fx-border-width: 1.5;" +
+	                    "-fx-border-radius:15;"+
+	                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" + 
+	                    "-fx-padding: 20;");
 
 	            // Add Labels and Text for each data
-	            Text fullNameLabel = new Text("Full Name: " + fullName);
-	            Text phoneLabel = new Text("Phone Number: " + phoneNumber);
-	            Text idCardLabel = new Text("ID Card: " + idCard);
-	            Text emailLabel = new Text("Email: " + email);
+	            Text fullNameLabel = new Text("Customer Name: " + customerName);
+	            fullNameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-fill: #333;");
 
-	            // Create Buttons
+	            Text phoneLabel = new Text("Phone Number: " + phone);
+	            phoneLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text idCardLabel = new Text("ID Card: " + idCard);
+	            idCardLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text emailLabel = new Text("Email: " + email);
+	            emailLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text checkInLabel = new Text("Check In: " + checkInDate.toString());
+	            checkInLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text checkOutLabel = new Text("Check Out: " + checkOutDate.toString());
+	            checkOutLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text depositLabel = new Text("Deposit: $" + deposit);
+	            depositLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text totalAmountLabel = new Text("Total Amount: $" + totalAmount);
+	            totalAmountLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            Text remainingChargesLabel = new Text("Remaining Charges: $" + remainingCharges);
+	            remainingChargesLabel.setStyle("-fx-font-size: 14px; -fx-fill: #555;");
+
+	            
+	            
 	            Button cancelButton = new Button("Cancel");
+	            cancelButton.setStyle("-fx-background-color: #ff4d4d;" +
+	                                  "-fx-text-fill: white;" +
+	                                  "-fx-font-size: 14px;" +
+	                                  "-fx-border-radius: 5;" +
+	                                  "-fx-background-radius: 5;");
+	            
 	            Button checkOutButton = new Button("Check Out");
+	            checkOutButton.setStyle("-fx-background-color: #4CAF50;" +
+	                                    "-fx-text-fill: white;" +
+	                                    "-fx-font-size: 14px;" +
+	                                    "-fx-border-radius: 5;" +
+	                                    "-fx-background-radius: 5;");
+
+	            // Button hover effects
+	            cancelButton.setOnMouseEntered(e -> cancelButton.setStyle("-fx-background-color: #ff1a1a;" +
+	                                                                      "-fx-text-fill: white;" +
+	                                                                      "-fx-font-size: 14px;"));
+	            cancelButton.setOnMouseExited(e -> cancelButton.setStyle("-fx-background-color: #ff4d4d;" +
+	                                                                     "-fx-text-fill: white;" +
+	                                                                     "-fx-font-size: 14px;"));
+
+	            checkOutButton.setOnMouseEntered(e -> checkOutButton.setStyle("-fx-background-color: #45a049;" +
+	                                                                          "-fx-text-fill: white;" +
+	                                                                          "-fx-font-size: 14px;"));
+	            checkOutButton.setOnMouseExited(e -> checkOutButton.setStyle("-fx-background-color: #4CAF50;" +
+	                                                                         "-fx-text-fill: white;" +
+	                                                                         "-fx-font-size: 14px;"));
 
 	            // Position elements in the pane
 	            AnchorPane.setTopAnchor(fullNameLabel, 10.0);
@@ -296,25 +361,40 @@ public class StaffRoomDetailsController {
 	            AnchorPane.setTopAnchor(emailLabel, 100.0);
 	            AnchorPane.setLeftAnchor(emailLabel, 10.0);
 
-	            AnchorPane.setTopAnchor(cancelButton, 140.0);
-	            AnchorPane.setLeftAnchor(cancelButton, 10.0);
+	            AnchorPane.setTopAnchor(checkInLabel, 130.0);
+	            AnchorPane.setLeftAnchor(checkInLabel, 10.0);
 
-	            AnchorPane.setTopAnchor(checkOutButton, 140.0);
-	            AnchorPane.setLeftAnchor(checkOutButton, 100.0);
+	            AnchorPane.setTopAnchor(checkOutLabel, 160.0);
+	            AnchorPane.setLeftAnchor(checkOutLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(depositLabel, 190.0);
+	            AnchorPane.setLeftAnchor(depositLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(totalAmountLabel, 220.0);
+	            AnchorPane.setLeftAnchor(totalAmountLabel, 10.0);
+
+	            AnchorPane.setTopAnchor(remainingChargesLabel, 250.0);
+	            AnchorPane.setLeftAnchor(remainingChargesLabel, 10.0);
+
+	            AnchorPane.setBottomAnchor(cancelButton, 10.0); 
+	            AnchorPane.setRightAnchor(cancelButton, 120.0); 
+
+	            AnchorPane.setBottomAnchor(checkOutButton, 10.0); 
+	            AnchorPane.setRightAnchor(checkOutButton, 10.0);
+
 
 	            // Add all elements to the pane
-	            customerDetailsPane.getChildren().addAll(fullNameLabel, phoneLabel, idCardLabel, emailLabel, cancelButton, checkOutButton);
+	            customerDetailsPane.getChildren().addAll(fullNameLabel, phoneLabel, idCardLabel, emailLabel,
+	                    checkInLabel, checkOutLabel, depositLabel, totalAmountLabel, remainingChargesLabel,
+	                    cancelButton, checkOutButton);
 
-	          
-	        
-	            
-	            
+	            // Add an overlay pane for darkened background
 	            AnchorPane overlayPane = new AnchorPane();
 	            overlayPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
 	            overlayPane.setPrefSize(body.getWidth(), body.getHeight());
 	            body.getChildren().add(overlayPane);
-	            
-	            
+
+	            // Center the customerDetailsPane
 	            double paneWidth = customerDetailsPane.getPrefWidth();
 	            double paneHeight = customerDetailsPane.getPrefHeight();
 	            double bodyWidth = body.getWidth();
@@ -326,22 +406,18 @@ public class StaffRoomDetailsController {
 	            customerDetailsPane.setLayoutX(centerX);
 	            customerDetailsPane.setLayoutY(centerY);
 
-	           
 	            body.getChildren().add(customerDetailsPane);
-	            
 
-	        
+	            // Button actions
 	            cancelButton.setOnAction(e -> {
-	            	 body.getChildren().removeAll(overlayPane, customerDetailsPane); 
+	                body.getChildren().removeAll(overlayPane, customerDetailsPane);
 	            });
 
 	            checkOutButton.setOnAction(e -> {
-	                RoomShowBody.setOpacity(1.0); // Restore the opacity
-	                
+	                RoomShowBody.setOpacity(1.0);
+	                System.out.println(LocalDate.now());
 	            });
 
-	        } else {
-	            System.out.println("No ongoing booking found for room " + roomId);
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -353,10 +429,9 @@ public class StaffRoomDetailsController {
 	@FXML
 	void SearchRoom(ActionEvent event) {
 		String enteredRoomId = searchField.getText().trim();
-		AddingRooms(enteredRoomId, 0);  // Show filtered rooms based on input
+		AddingRooms(enteredRoomId, 0);
 	}
 
-	// Method to fetch room counts from the database
 	private void updateRoomCounts() {
 		getRoomCount("Available", NumberOfAR);
 		getRoomCount("Booked", NumberOfBR);
@@ -378,7 +453,7 @@ public class StaffRoomDetailsController {
 
 	@FXML
 	void RoomTypeAction(ActionEvent event) {
-		AddingRooms("", 0);  // Call the AddingRooms method to update the room list based on the selected filters
+		AddingRooms("", 0);
 	}
 
 
@@ -399,7 +474,7 @@ public class StaffRoomDetailsController {
 
 	@FXML
 	void BookingAction(ActionEvent event) {
-    
+
 	}
 
 	@FXML
@@ -408,13 +483,12 @@ public class StaffRoomDetailsController {
 	}
 	@FXML
 	void SubmitAction(ActionEvent event) {
-	  
+
 	    if (selectedRoomNo == null || selectedRoomNo.isEmpty()) {
 	        System.out.println("Please select a room before booking.");
 	        return;
 	    }
-
-	    // Collect guest information from the form
+	    
 	    String firstName = FirstName.getText();
 	    String lastName = LastName.getText();
 	    String guestName = firstName + " " + lastName;
@@ -423,41 +497,57 @@ public class StaffRoomDetailsController {
 	    String email = Email.getText();
 	    LocalDate checkInDate = LocalDate.now(); // Assuming check-in is now (replace with actual if needed)
 	    int stayDurationNights = Integer.parseInt(duration.getText());
-	    int stayDurationHours = 0; // Set to 0 unless you have an additional input for hours
+	    int stayDurationHours = 0;
 
-	    String sql = "CALL add_booking(?, ?, ?, ?, ?, ?, ?, ?)";
+	    String bookingSql = "CALL add_booking(?, ?, ?, ?, ?, ?, ?, ?)";
+	    String confirmSql = "CALL confirm_booking_manuallly(?, ?)"; 
 
 	    try (Connection con = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
-	         CallableStatement psmt = con.prepareCall(sql)) {
-            con.setAutoCommit(false);
-	        // Set procedure parameters
-	        psmt.setString(1, selectedRoomNo); 
-	        psmt.setString(2, guestName);      
-	        psmt.setString(3, phone_number);    
-	        psmt.setString(4, guestId);
-	        psmt.setString(5,email);
-	        psmt.setDate(6, java.sql.Date.valueOf(checkInDate));
-	        psmt.setInt(7, stayDurationNights);
-	        psmt.setInt(8, stayDurationHours);
+	            CallableStatement psmtBooking = con.prepareCall(bookingSql);
+	            CallableStatement psmtConfirm = con.prepareCall(confirmSql)) {
+	        
+	        con.setAutoCommit(false);
 
-	        // Execute the stored procedure
-	        int result = psmt.executeUpdate();
+	        // Set parameters for add_booking stored procedure
+	        psmtBooking.setString(1, selectedRoomNo);
+	        psmtBooking.setString(2, guestName);
+	        psmtBooking.setString(3, phone_number);
+	        psmtBooking.setString(4, guestId);
+	        psmtBooking.setString(5, email);
+	        psmtBooking.setDate(6, java.sql.Date.valueOf(checkInDate));
+	        psmtBooking.setInt(7, stayDurationNights);
+	        psmtBooking.setInt(8, stayDurationHours);
 
-	        // Commit the transaction if successful
-	        if (result > 0) {
-	            con.commit();
+	        // Execute add_booking
+	        int bookingResult = psmtBooking.executeUpdate();
+
+	        if (bookingResult > 0) {
+	            // Commit the booking transaction
+	           // con.commit();
 	            System.out.println("Booking added successfully.");
-	          
+
+	           
+	            psmtConfirm.setString(1, guestName);    
+	            psmtConfirm.setString(2, selectedRoomNo);
+
+	            // Execute confirm_booking_procedure
+	            int confirmResult = psmtConfirm.executeUpdate();
+
+	            if (confirmResult > 0) {
+	                System.out.println("Booking confirmed successfully.");
+	            } else {
+	                System.out.println("Error confirming the booking.");
+	            }
+
+	        } else {
+	            System.out.println("Booking failed.");
 	        }
+
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        System.out.println(e.getMessage() + " Error occurred during booking.");
-	      
+	        System.out.println(e.getMessage() + " Error occurred during booking or confirmation.");
 	    }
 	}
-
-
-
 	@FXML
 	void SwitchToBookingDetails(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("BookingPart.fxml"));
@@ -496,23 +586,23 @@ public class StaffRoomDetailsController {
 		stage.show();
 	}
 	@FXML
-    void increaseAction(ActionEvent event) {
-		
+	void increaseAction(ActionEvent event) {
 
-    }
-    @FXML
-    void decreaseAction(ActionEvent event) {
-    	
-    }
-    @FXML
-    void increaseAction1(ActionEvent event) {
-    	
-    }
-    @FXML
-    void decreaseAction1(ActionEvent event) {
-    	
-    }
-    
+
+	}
+	@FXML
+	void decreaseAction(ActionEvent event) {
+
+	}
+	@FXML
+	void increaseAction1(ActionEvent event) {
+
+	}
+	@FXML
+	void decreaseAction1(ActionEvent event) {
+
+	}
+
 	@FXML
 	void SwitchToSetting(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("Setting.fxml"));
